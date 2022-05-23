@@ -1,5 +1,5 @@
 {
-  description = "You new nix config";
+  description = "Go Nix config";
 
   inputs = {
     # Nixpkgs
@@ -40,8 +40,7 @@
       # System configurations
       # Accessible via 'nixos-rebuild'
       nixosConfigurations = {
-        # FIXME: Replace with your hostname
-        your-hostname = nixosSystem {
+        flores = nixosSystem {
           system = "x86_64-linux";
 
           modules = [
@@ -60,10 +59,8 @@
       # Home configurations
       # Accessible via 'home-manager'
       homeConfigurations = {
-        # FIXME: Replace with your username@hostname
-        "your-name@your-hostname" = homeManagerConfiguration rec {
-          # FIXME: Replace with your username
-          username = "your-name";
+        "lgo@flores" = homeManagerConfiguration rec {
+          username = "lgo";
           homeDirectory = "/home/${username}";
           system = "x86_64-linux";
 
