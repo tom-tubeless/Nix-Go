@@ -46,8 +46,37 @@
   
   time.timeZone = "Europe/Amsterdam";
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  ### Boot Configuration ###
+  boot = {
+    cleanTmpDir = true;
+    # initrd.checkJournalingFS = false; # for Virtualbox only
+    kernelPackages = pkgs.linuxPackages_latest;
+    loader = {
+      efi.canTouchEfiVariables = true;
+      grub = {
+        efiSupport = true;
+        enable = true;
+        enableCryptodisk = true;
+        device = "nodev";
+        # font = "${pkgs.nerdfonts}/share/fonts/truetype/NerdFonts/Fura Code Retina Nerd Font Complete Mono.ttf";
+        # fontSize = 32;
+        version = 2;
+      };
+      systemd-boot.enable = true;
+    };
+    initrd.luks.devices = {
+      root = {
+        device = "/dev/nvme0n1p2";
+        preLVM = true;
+      };
+    };
+    initrd.preLVMCommands = ''
+      echo '--- OWNERSHIP NOTICE ---'
+      echo 'This device is property of Lutz Go'
+      echo 'If lost please contact lutz0go@gmail.com'
+      echo '--- OWNERSHIP NOTICE ---'
+    '';
+  };
 
   users.users = {
     lgo = {
